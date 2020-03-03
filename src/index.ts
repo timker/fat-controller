@@ -36,15 +36,19 @@ async function GetWeight(sheetsApi: sheets_v4.Sheets) {
 }
 
 // todo find definition of
-app.intent("Add Weight", (conv, input: { weight: { amount: number } }) => {
+app.intent("Add Weight", (conv, input: { weight: number }) => {
   console.log(input);
-  AddWeight(input.weight.amount);
-  return conv.close(`let's round it up to ${input.weight.amount + 1}`);
+  AddWeight(input.weight);
+  return conv.close(`let's round it up to ${input.weight + 1}`);
 });
 
 async function AddWeight(weight: number) {
   // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
-  const row = [new Date(), weight];
+  const utcDate = new Date()
+    .toISOString()
+    .replace(/T/, " ")
+    .replace(/\..+/, "");
+  const row = [utcDate, weight];
 
   // online documentation is a bit confused between resource and requestBody
   var resource = {
@@ -54,10 +58,12 @@ async function AddWeight(weight: number) {
 
   const request: sheets_v4.Params$Resource$Spreadsheets$Values$Append = {
     spreadsheetId,
-    range: "Data", // this is the sheet name
-    valueInputOption: "RAW", // https://developers.google.com/sheets/api/reference/rest/v4/ValueInputOption
+    range: "Data!A:B", // this is the sheet name
+    valueInputOption: "USER_ENTERED", //  this will format the date correctly https://developers.google.com/sheets/api/reference/rest/v4/ValueInputOption
     insertDataOption: "INSERT_ROWS",
     requestBody: resource
+
+    //responseDateTimeRenderOption:"FORMATTED_STRING"
   };
 
   const sheets = await AuthenticateSheets();
