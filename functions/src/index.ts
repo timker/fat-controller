@@ -1,7 +1,7 @@
 "use strict";
 
-let spreadsheetId = "replace Values";
-const functions = require("firebase-functions");
+import { https } from "firebase-functions";
+
 import { dialogflow } from "actions-on-google";
 import { google, sheets_v4 } from "googleapis";
 
@@ -78,4 +78,9 @@ async function AuthenticateSheets(): Promise<sheets_v4.Sheets> {
 }
 
 // how does Dialogflow/actions platform know to call dialogflowFirebaseFulfillment
-exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
+exports.dialogflowFirebaseFulfillment = https.onRequest(app);
+
+export const helloWorld = https.onRequest((request, response) => {
+  response.send("Hello from Firebase!");
+});
+
