@@ -36,13 +36,16 @@ async function GetWeight(sheetsApi: sheets_v4.Sheets) {
 }
 
 // todo find definition of
-app.intent("Add Weight", (conv, input: { weight: number }) => {
-  console.log(input);
-  AddWeight(input.weight);
-  return conv.close(`let's round it up to ${input.weight + 1}`);
+app.intent("Add Weight", async (conversation, input: { weight: number }) => {
+  //console.log(input);
+  console.log("weightzzzz");
+  console.log(typeof input.weight);
+  //console.log(input.weight + 5);
+  await AddWeight(input.weight);
+  return conversation.close(`let's round it up to ${input.weight + 2}`);
 });
 
-async function AddWeight(weight: number) {
+async function AddWeight(weight: number): Promise<any> {
   // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
   const utcDate = new Date()
     .toISOString()
@@ -67,7 +70,8 @@ async function AddWeight(weight: number) {
   };
 
   const sheets = await AuthenticateSheets();
-  sheets.spreadsheets.values.append(request);
+
+  return sheets.spreadsheets.values.append(request);
 }
 
 async function AuthenticateSheets(): Promise<sheets_v4.Sheets> {

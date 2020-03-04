@@ -14,16 +14,23 @@ npm install -g firebase-tools
 
 - Note! Working folder is /functions
 
-`npm run build`
-`npm run serve`
+- `npm run build`
+- `npm run serve`
 
 # deploy
 
-copy ./bin/index.js to fulfillment text area, and insure package.json is up to date
+- cli: `firebase deploy --only functions`
+
+- manual: copy ./functions/lib/index.js to fulfillment text area, and insure ./functions/package.json is up to date
 
 # run locally
 
 ```
  firebase serve --only functions
 ```
+
+# test
+
+Deploy and find function in gcp
+add example payload in /tests/payloads/\*.json to the testing function
 
