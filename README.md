@@ -16,6 +16,11 @@ npm install -g firebase-tools
 
 - `npm run build`
 - `npm run serve`
+- `npm run deploy:production`
+- `npm run deploy:staging`
+- `firebase projects:list`
+- `firebase use --add`
+- `firebase use {environmentName}`
 
 # deploy
 

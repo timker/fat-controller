@@ -12,7 +12,8 @@
     "build": "tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
     "start": "npm run build && firebase serve --only functions:dialogflowFirebaseFulfillment",
-    "deploy": "npm run build && firebase deploy --only functions:dialogflowFirebaseFulfillment"
+    "deploy:staging": "npm run build && firebase deploy --only functions -P staging",
+    "deploy:production": "npm run build && firebase deploy --only functions -P production"
   },
   "main": "lib/index.js",
   "dependencies": {

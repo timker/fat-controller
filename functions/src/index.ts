@@ -8,7 +8,7 @@ import { google, sheets_v4 } from "googleapis";
 // what does  debug: true mean?
 const app = dialogflow({ debug: true });
 
-app.intent("Check Weight", async (conversation, {}) => {
+app.intent("Check Weight", async (conversation, { }) => {
   //ask|response|close
 
   const auth = await google.auth.getClient({
@@ -35,14 +35,13 @@ async function GetWeight(sheetsApi: sheets_v4.Sheets) {
   return response.data.values![0][0];
 }
 
-// todo find definition of
+// TODO assumption, weight is supplied
 app.intent("Add Weight", async (conversation, input: { weight: number }) => {
-  //console.log(input);
-  console.log("weightzzzz");
-  console.log(typeof input.weight);
-  //console.log(input.weight + 5);
-  await AddWeight(input.weight);
-  return conversation.close(`let's round it up to ${input.weight + 2}`);
+  //console.log(typeof input.weight);
+  const weight = Number(input.weight);
+
+  await AddWeight(weight);
+  return conversation.close(`let's round it up to ${weight + 2}`);
 });
 
 async function AddWeight(weight: number): Promise<any> {
@@ -87,4 +86,3 @@ exports.dialogflowFirebaseFulfillment = https.onRequest(app);
 export const helloWorld = https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
-
