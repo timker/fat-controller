@@ -1,11 +1,15 @@
 "use strict";
 
-import { https } from "firebase-functions";
-
 import { dialogflow } from "actions-on-google";
 import { google, sheets_v4 } from "googleapis";
+import { config, https } from "firebase-functions";
+// TODO why does this not work
+//import functions from "firebase-functions";
 
-// what does  debug: true mean?
+let spreadsheetId = config().spreadsheet.id;
+console.log(`spreadsheet.id is :${spreadsheetId}`)
+
+// TODO what does  debug: true mean?
 const app = dialogflow({ debug: true });
 
 app.intent("Check Weight", async (conversation, { }) => {
